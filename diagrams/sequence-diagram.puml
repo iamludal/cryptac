@@ -1,0 +1,75 @@
+@startuml Sequence Diagram
+
+title
+  Data Retrieval Algorithm of the MainActivity
+end title
+
+skinparam sequence {
+  ArrowColor Black
+  ActorBackgroundColor White
+  ActorBorderColor Black
+  ParticipantBackgroundColor #F5F5F5
+  ParticipantBorderColor Black
+  DefaultTextAlignment Center
+}
+
+skinparam TitleFontStyle Bold
+skinparam TitleFontSize 22
+skinparam SequenceMessageAlignment Center
+skinparam SequenceLifeLineBorderColor Black
+
+actor "User" as U
+participant "MainActivity" as MA
+participant "MainViewModel" as MV
+participant "Repository" as RP
+participant "API (Retrofit)" as API
+participant "Database (Room)" as DB
+
+U -> MA++ : get list of top cryptos
+
+alt #F5F5F5 list in bundle = false (not loaded)
+  |||
+
+  MA -> MV++ : get list of top cryptos
+
+  MV -> RP++ : get list of top cryptos
+
+  RP -> API++ : get listings (top cryptos)
+
+  RP <<-- API : listings (top cryptos)
+
+  API--
+
+  |||
+
+  RP -> DB++ : get favorites
+
+  RP <<-- DB : favorites
+
+  |||
+
+  DB--
+
+  RP -> RP++ : aggregate listings \n and favorites
+
+  RP--
+
+  MV <<-- RP-- : list of top cryptos
+
+  MA <<-- MV-- : list of top cryptos
+
+  |||
+
+end
+
+|||
+
+MA -> MA++ : setup layout and toolbar
+
+MA--
+
+U <<-- MA : display list of top cryptos
+
+MA--
+
+@enduml

@@ -1,0 +1,164 @@
+@startuml Class diagram
+
+title
+  Class and Package Diagram of Cryptac
+end title
+
+skinparam ArrowColor Black
+skinparam ClassBorderColor Black
+skinparam ClassBackgroundColor #F5F5F5
+skinparam TitleFontStyle Bold
+skinparam TitleFontSize 24
+
+package fr.tac.cryptac {
+  package view {
+    class MainActivity
+    class DetailsActivity
+  }
+
+  package viewmodel {
+    class MainViewModel
+    class DetailsViewModel
+  }
+
+  package data {
+    class Repository
+
+    package room {
+      class AppDatabase
+
+      package dao {
+        class DetailsDao
+        class FavoriteDao
+      }
+
+      package entity {
+        class Details
+        class Favorite
+      }
+    }
+  }
+
+  package api {
+    class ApiClient
+  }
+
+  package model {
+    class CryptoDetails
+    class CryptoBasic
+  }
+}
+
+class MainActivity {
+  - viewModel: MainViewModel
+  - cryptoList: List<CryptoBasic>
+  + loadCryptoList(): void
+}
+
+class MainViewModel {
+  + favoritesListener: PublishSubject<CryptoBasic>
+  - repository: Repository
+  + getCryptoList(): Single<List<CryptoBasic>>
+  + setFavorite(symbol: String, value: Boolean): Completable
+}
+
+class DetailsActivity {
+  - viewModel: DetailsViewModel
+  + loadDetails(symbol: String): void
+}
+
+class DetailsViewModel {
+  - repository: Repository
+  + getCryptoDetails()
+}
+
+class Repository {
+  - retrofit: ApiClient
+  - database: AppDatabase
+  + getCryptoList(): Single<List<CryptoBasic>>
+  + getCryptoDetails(symbol: String): Single<CryptoDetails>
+  + setFavorite(symbol: String, value: Boolean): Completable
+}
+
+class AppDatabase {
+  + {abstract} favoriteDao(): FavoriteDao
+  + {abstract} detailsDao(): DetailsDao
+  ..
+  + getInstance(context: Context): AppDatabase
+}
+
+class ApiClient {
+  - BASE_URL: String
+  + getListings(limit): Single<Info>
+  + getInfo(symbol)
+  + getDetails(symbol)
+}
+
+class Details {
+  + cryptoId: Int
+  + name: String
+  + symbol: String
+  + description: String
+  + logo: String
+  + website: String?
+  + sourceCode: String?
+  + technicalDoc: String?
+  + twitter: String?
+  + reddit: String?
+}
+
+class Favorite {
+  + symbol: String
+}
+
+class CryptoBasic {
+  + cryptoId: Int
+  + cmcRank: Int
+  + name: String
+  + symbol: String
+  + logo: String
+  + price: Double
+  + percentChange1h: Float
+  + isFavorite: Boolean
+}
+
+class CryptoDetails {
+  + logo: String
+  + symbol: String
+  + name: String
+  + description: String
+  + price: Double
+  + percentChange1h: Float
+  + volume24h: Double
+  + marketCap: Double
+  + cmcRank: Int
+  + circulatingSupply: Double
+  + website: String?
+  + sourceCode: String?
+  + technicalDoc: String?
+  + twitter: String?
+  + reddit: String?
+}
+
+class DetailsDao {
+  + getDetails(): Single<Details>
+  + saveDetails(details: Details): void
+}
+
+class FavoriteDao {
+  + getAll(): Single<List<Favorite>>
+  + add(favorite: Favorite): Completable
+  + remove(favorite: Favorite): Completable
+}
+
+MainActivity --> MainViewModel : contains
+MainViewModel --> Repository : contains
+DetailsActivity --> DetailsViewModel : contains
+DetailsViewModel --> Repository : contains
+Repository --> AppDatabase : contains
+Repository --> ApiClient : contains
+DetailsDao --> Details : uses
+FavoriteDao --> Favorite : uses
+
+@enduml
+
