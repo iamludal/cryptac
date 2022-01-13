@@ -9,7 +9,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "fr.tac.cryptac"
+        applicationId "fr.iamludal.cryptac"
         minSdk 29
         targetSdk 31
         versionCode 1

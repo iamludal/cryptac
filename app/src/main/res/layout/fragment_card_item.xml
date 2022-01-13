@@ -4,7 +4,7 @@
     <data>
         <variable
             name="model"
-            type="fr.tac.cryptac.model.CryptoBasic" />
+            type="fr.iamludal.cryptac.model.CryptoBasic" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -10,7 +10,7 @@ skinparam ClassBackgroundColor #F5F5F5
 skinparam TitleFontStyle Bold
 skinparam TitleFontSize 24
 
-package fr.tac.cryptac {
+package fr.iamludal.cryptac {
   package view {
     class MainActivity
     class DetailsActivity
