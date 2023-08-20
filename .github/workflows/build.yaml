@@ -6,6 +6,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
     steps:
       - uses: actions/checkout@v3
 
@@ -17,6 +19,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+      
+      - name: Create local.properties file
+        run: echo "CMC_API_KEY=$CMC_API_KEY" > local.properties
 
       - name: Build SampleApplication
         run: ./gradlew assembleRelease
