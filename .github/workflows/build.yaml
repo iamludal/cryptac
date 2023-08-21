@@ -9,6 +9,7 @@ jobs:
     env:
       CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
       KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+      KEYSTORE_FILE_PATH: ./release-key.jks
     steps:
       - uses: actions/checkout@v3
 
@@ -25,7 +26,7 @@ jobs:
         run: echo "CMC_API_KEY=$CMC_API_KEY" > local.properties
 
       - name: Create release-key.jks file
-        run: echo "$KEYSTORE_FILE" | base64 -d > release-key.jks
+        run: echo "$KEYSTORE_FILE" | base64 -d > $KEYSTORE_FILE_PATH
 
       - name: Build APK
         run: ./gradlew assembleRelease
@@ -33,7 +34,6 @@ jobs:
       - name: Build AAB
         run: ./gradlew bundleRelease
         env:
-          SIGNING_STORE_FILE: ./release-key.jks
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
