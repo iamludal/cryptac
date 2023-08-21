@@ -26,7 +26,7 @@ jobs:
         run: echo "CMC_API_KEY=$CMC_API_KEY" > local.properties
 
       - name: Create release-key.jks file
-        run: echo "$KEYSTORE_FILE" | base64 -d > $KEYSTORE_FILE_PATH
+        run: echo "$KEYSTORE_FILE" | base64 -d > app/$KEYSTORE_FILE_PATH
 
       - name: Build APK
         run: ./gradlew assembleRelease
