@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      */
     private fun disableItem(menuItem: MenuItem) {
         menuItem.isEnabled = true
-        menuItem.icon.alpha = Alpha.TRANSPARENT
+        menuItem.icon?.alpha = Alpha.TRANSPARENT
     }
 
     /**
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      */
     private fun enableItem(menuItem: MenuItem) {
         menuItem.isEnabled = false
-        menuItem.icon.alpha = Alpha.OPAQUE
+        menuItem.icon?.alpha = Alpha.OPAQUE
     }
 
     // When the crypto list is loaded, display the toolbar menu items.
