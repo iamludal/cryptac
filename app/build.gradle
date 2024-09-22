@@ -8,6 +8,8 @@ plugins {
 android {
     compileSdk 35
 
+    namespace "fr.iamludal.cryptac"
+
     defaultConfig {
         applicationId "fr.iamludal.cryptac"
         minSdk 24
