@@ -11,7 +11,7 @@ class ApiKeyInterceptor : Interceptor {
 
     companion object {
         private const val HEADER_KEY = "X-CMC_PRO_API_KEY"
-        private const val HEADER_VALUE = BuildConfig.CMC_API_KEY
+        private val HEADER_VALUE = BuildConfig.CMC_API_KEY
     }
 
     /**
